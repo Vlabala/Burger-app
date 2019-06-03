@@ -14,6 +14,7 @@ class App extends Component {
                 {id: '2', name: 'Vlad', age: 23}
             ],
             showPersons: false,
+            showCockpit: true
         };
     }
 
@@ -24,6 +25,15 @@ class App extends Component {
 
     componentDidMount() {
         console.log('[App.js] componentDidMount');
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log('[App.js] componentDidUpdate');
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        console.log('[App.js] shouldComponentUpdate');
+        return true;
     }
 
     deletePersonHandler = index => {
@@ -65,12 +75,16 @@ class App extends Component {
                 changed={this.nameChangedHandler}/>;
         }
         return (
-            <div className={classes.App}>
-                <Cockpit
+            <div>
+                <button onClick={() => {
+                    this.setState({showCockpit: !this.state.showCockpit})
+                }}>Remove button
+                </button>
+                {this.state.showCockpit ? <Cockpit
                     title={this.props.appTitle}
                     clicked={this.togglePersonsHandler}
                     showPersons={this.state.showPersons}
-                    persons={this.state.persons}/>
+                    persons={this.state.persons}/> : null}
                 {persons}
             </div>
         );
